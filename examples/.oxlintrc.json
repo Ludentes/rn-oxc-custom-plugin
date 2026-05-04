@@ -69,6 +69,8 @@
     "rn-expo/router-screen-conventions-default-export-required": "error",
     "rn-expo/env-expo-public-prefix-only": "error",
     "rn-expo/imports-flashlist-estimated-item-size": "error",
+    "rn-expo/compat-no-es2023-array-methods": "error",
+    "unicorn/no-array-sort": "off",
     "react/rules-of-hooks": "error",
     "react/exhaustive-deps": "error",
     "react/jsx-key": "error",

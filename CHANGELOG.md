@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.2
+
+- New rule `rn-expo/compat-no-es2023-array-methods` (error) — bans `.toSorted()`, `.toReversed()`, `.toSpliced()` in app source. Hermes support is uneven across RN/OEM builds; calls throw `TypeError: undefined is not a function` at runtime with no transpile fallback. Pair with `unicorn/no-array-sort: off` to avoid the conflicting "use toSorted" advice.
+
 ## v0.0.1
 
 Initial extraction. 8 rules across 7 domains:

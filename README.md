@@ -27,7 +27,8 @@ In `.oxlintrc.json`:
     "rn-expo/storage-kv-store-key-prefix": ["error", { "prefix": "^myapp:[\\w-]+:v\\d+$" }],
     "rn-expo/router-screen-conventions-default-export-required": "error",
     "rn-expo/env-expo-public-prefix-only": "error",
-    "rn-expo/imports-flashlist-estimated-item-size": "error"
+    "rn-expo/imports-flashlist-estimated-item-size": "error",
+    "rn-expo/compat-no-es2023-array-methods": "error"
   }
 }
 ```
@@ -48,6 +49,7 @@ For a complete drop-in starter — including the oxlint built-in plugins (`react
 | `router-screen-conventions-default-export-required` | router | error |
 | `env-expo-public-prefix-only` | env | error |
 | `imports-flashlist-estimated-item-size` | imports/lists | error |
+| `compat-no-es2023-array-methods` | compat | error |
 
 Each rule's rationale is in [`docs/`](./docs) — start with [`docs/00-index.md`](./docs/00-index.md).
 

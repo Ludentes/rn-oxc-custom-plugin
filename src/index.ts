@@ -6,6 +6,7 @@ import kvStoreKeyPrefix from './rules/rn-storage/kv-store-key-prefix.ts'
 import defaultExportRequired from './rules/rn-router-screen-conventions/default-export-required.ts'
 import expoPublicPrefixOnly from './rules/rn-env/expo-public-prefix-only.ts'
 import flashlistEstimatedItemSize from './rules/rn-imports/flashlist-estimated-item-size.ts'
+import noEs2023ArrayMethods from './rules/rn-compat/no-es2023-array-methods.ts'
 
 const plugin = {
   meta: {
@@ -21,6 +22,7 @@ const plugin = {
     'router-screen-conventions-default-export-required': defaultExportRequired,
     'env-expo-public-prefix-only': expoPublicPrefixOnly,
     'imports-flashlist-estimated-item-size': flashlistEstimatedItemSize,
+    'compat-no-es2023-array-methods': noEs2023ArrayMethods,
   },
 }
 
