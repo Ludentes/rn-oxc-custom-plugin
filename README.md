@@ -34,6 +34,8 @@ In `.oxlintrc.json`:
 
 The plugin's lint-reference name is `rn-expo` (rule keys are `rn-expo/<rule>`).
 
+For a complete drop-in starter — including the oxlint built-in plugins (`react`, `react-perf`, `jsx-a11y`, `promise`), `no-restricted-imports` bans for AsyncStorage / sentry-expo / `expo-av` / raw `Image` from `react-native` / etc., React-19 overrides, and pre-commit wiring — see [`examples/.oxlintrc.json`](./examples/.oxlintrc.json) and [`examples/README.md`](./examples/README.md).
+
 ## Rules
 
 | Rule | Domain | Default |

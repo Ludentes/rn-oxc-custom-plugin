@@ -1,0 +1,98 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc",
+    "import",
+    "react",
+    "react-perf",
+    "jsx-a11y",
+    "promise"
+  ],
+  "jsPlugins": ["rn-oxc-custom-plugin"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@react-native-async-storage/async-storage",
+            "message": "Use expo-sqlite/kv-store. AsyncStorage hits Android's 6 MB SQLite cap and lacks atomicity."
+          },
+          {
+            "name": "sentry-expo",
+            "message": "Dead since Jan 2024. Use @sentry/react-native + the Expo config plugin."
+          },
+          {
+            "name": "expo-av",
+            "message": "Deprecated in SDK 53+. Use expo-audio for audio and expo-video for video."
+          },
+          {
+            "name": "react-native-call-detection",
+            "message": "Requires READ_PHONE_STATE (Play Store sensitive permission). Use AppState 'inactive' / 'blur' signals instead."
+          },
+          {
+            "name": "react-native-web",
+            "message": "Web export uses Expo's bundled react-native-web. Do not import directly."
+          }
+        ],
+        "patterns": [
+          {
+            "group": ["react-native"],
+            "importNames": [
+              "Image",
+              "SafeAreaView",
+              "StatusBar",
+              "TouchableOpacity",
+              "TouchableHighlight",
+              "TouchableWithoutFeedback",
+              "TouchableNativeFeedback"
+            ],
+            "message": "Image -> expo-image. SafeAreaView -> react-native-safe-area-context. StatusBar -> expo-status-bar. Touchables -> Pressable."
+          }
+        ]
+      }
+    ],
+    "rn-expo/required-wrappers-gesture-handler-root": "error",
+    "rn-expo/i18n-no-hardcoded-jsx-text": "warn",
+    "rn-expo/color-tokens-no-hex-literal-in-component": "warn",
+    "rn-expo/power-short-interval-without-appstate": "error",
+    "rn-expo/storage-kv-store-key-prefix": ["error", { "prefix": "^myapp:[\\w-]+:v\\d+$" }],
+    "rn-expo/router-screen-conventions-default-export-required": "error",
+    "rn-expo/env-expo-public-prefix-only": "error",
+    "rn-expo/imports-flashlist-estimated-item-size": "error",
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "error",
+    "react/jsx-key": "error",
+    "react/jsx-no-constructed-context-values": "warn",
+    "react/jsx-no-useless-fragment": "warn",
+    "react/no-array-index-key": "warn",
+    "react/no-children-prop": "error",
+    "react/no-danger-with-children": "error",
+    "react/no-direct-mutation-state": "error",
+    "react/no-find-dom-node": "error",
+    "react/no-is-mounted": "error",
+    "react/no-render-return-value": "error",
+    "react/no-string-refs": "error",
+    "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-scope": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "react/void-dom-elements-no-children": "error",
+    "react-perf/jsx-no-new-array-as-prop": "warn",
+    "react-perf/jsx-no-new-function-as-prop": "warn",
+    "react-perf/jsx-no-new-object-as-prop": "warn",
+    "promise/no-new-statics": "error",
+    "promise/no-return-in-finally": "warn",
+    "promise/param-names": "error",
+    "promise/valid-params": "warn"
+  },
+  "ignorePatterns": ["**/dist/**", "**/.turbo/**", "**/node_modules/**", "**/migrations/**"]
+}
