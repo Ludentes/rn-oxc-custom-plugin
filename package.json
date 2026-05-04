@@ -1,0 +1,36 @@
+{
+  "name": "rn-oxc-custom-plugin",
+  "version": "0.0.1",
+  "description": "Custom oxlint rules for React Native + Expo SDK 55 / React 19 / expo-router. Plugin name: rn-expo.",
+  "license": "MIT",
+  "repository": "github:Ludentes/rn-oxc-custom-plugin",
+  "homepage": "https://github.com/Ludentes/rn-oxc-custom-plugin",
+  "keywords": ["oxlint", "oxc", "eslint", "react-native", "expo", "expo-router", "lint-plugin"],
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": ["dist", "docs", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "@types/eslint": "^9.6.1",
+    "@types/estree": "^1.0.6",
+    "@types/estree-jsx": "^1.0.5",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.13.0",
+    "tsup": "^8.3.0",
+    "typescript": "^6.0.3",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.17.0"
+}
