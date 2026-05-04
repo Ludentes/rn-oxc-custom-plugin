@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.0.3
+
+Example config (`examples/.oxlintrc.json`) only — no rule changes.
+
+- Switched off rules that produce high warning volume with low signal in idiomatic RN/Expo code: `react-perf/jsx-no-{new-array,new-function,new-object,jsx}-as-prop`, `react/no-array-index-key`, `no-await-in-loop`, `import/no-unassigned-import`, `react/style-prop-object`, `oxc/no-map-spread`, `promise/no-multiple-resolved`.
+- Documented each in the new "Noise dampeners" section of `examples/README.md`.
+
 ## v0.0.2
 
 - New rule `rn-expo/compat-no-es2023-array-methods` (error) — bans `.toSorted()`, `.toReversed()`, `.toSpliced()` in app source. Hermes support is uneven across RN/OEM builds; calls throw `TypeError: undefined is not a function` at runtime with no transpile fallback. Pair with `unicorn/no-array-sort: off` to avoid the conflicting "use toSorted" advice.

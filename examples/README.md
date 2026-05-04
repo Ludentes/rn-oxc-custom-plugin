@@ -74,6 +74,18 @@ React 19's automatic JSX runtime makes the `React` symbol unnecessary. Without t
 
 RN apps render text in `<Text>`, not in HTML; the rule's escaping concerns don't apply.
 
+### Noise dampeners
+
+A handful of rules from the enabled plugins fire constantly in idiomatic RN/Expo code with low signal. The example config turns them off so the warnings that *do* show up are worth looking at:
+
+- **`react-perf/jsx-no-new-{array,function,object,jsx}-as-prop`** — fire on every inline arrow, object literal, and array literal passed as a prop. That's the standard React idiom. The runtime cost is negligible outside hot list rendering, and `React.memo` + `useCallback` already handle the cases where it matters. Together these account for the bulk of warning volume in any non-trivial RN codebase.
+- **`react/no-array-index-key`** — flags `key={i}` even when the list never reorders (e.g., paragraphs split by `\n`). The recommended fix (content-based key) is fine, but for genuinely-static lists the warning is paranoia. Turn it back on if you have lists that *do* reorder.
+- **`no-await-in-loop`** — fires on sequential async work that's intentional: ingest pipelines, ordered DB ops, retry-with-backoff loops. The "use Promise.all" advice is wrong when ordering matters.
+- **`import/no-unassigned-import`** — fires on `import '@expo/metro-runtime'`, `import './global.css'`, polyfill imports — all routine in Expo apps.
+- **`react/style-prop-object`** — false-positive on `expo-status-bar`'s string `style="auto"|"light"|"dark"` API.
+- **`oxc/no-map-spread`** — flags `arr.map(x => ({ ...x, foo: bar }))`, the standard immutable-update idiom. The "inefficiency" is microscopic and the alternative is uglier.
+- **`promise/no-multiple-resolved`** — false-positive on the standard `setTimeout`-with-cancellation pattern (`new Promise(r => { const t = setTimeout(r, ...); cancel = () => { clearTimeout(t); r() } })`). Promise.resolve is idempotent; calling it twice is a no-op.
+
 ### Ignore patterns
 
 ```jsonc

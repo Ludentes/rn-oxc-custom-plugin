@@ -88,13 +88,20 @@
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/no-autofocus": "off",
     "react/void-dom-elements-no-children": "error",
-    "react-perf/jsx-no-new-array-as-prop": "warn",
-    "react-perf/jsx-no-new-function-as-prop": "warn",
-    "react-perf/jsx-no-new-object-as-prop": "warn",
+    "react-perf/jsx-no-new-array-as-prop": "off",
+    "react-perf/jsx-no-new-function-as-prop": "off",
+    "react-perf/jsx-no-new-object-as-prop": "off",
+    "react-perf/jsx-no-jsx-as-prop": "off",
+    "react/no-array-index-key": "off",
     "promise/no-new-statics": "error",
     "promise/no-return-in-finally": "warn",
     "promise/param-names": "error",
-    "promise/valid-params": "warn"
+    "promise/valid-params": "warn",
+    "promise/no-multiple-resolved": "off",
+    "no-await-in-loop": "off",
+    "import/no-unassigned-import": "off",
+    "react/style-prop-object": "off",
+    "oxc/no-map-spread": "off"
   },
   "ignorePatterns": ["**/dist/**", "**/.turbo/**", "**/node_modules/**", "**/migrations/**"]
 }

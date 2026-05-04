@@ -1,6 +1,6 @@
 {
   "name": "rn-oxc-custom-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Custom oxlint rules for React Native + Expo SDK 55 / React 19 / expo-router. Plugin name: rn-expo.",
   "license": "MIT",
   "repository": "github:Ludentes/rn-oxc-custom-plugin",
