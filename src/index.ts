@@ -11,7 +11,7 @@ import noEs2023ArrayMethods from './rules/rn-compat/no-es2023-array-methods.ts'
 const plugin = {
   meta: {
     name: 'rn-expo',
-    version: '0.0.1',
+    version: '0.1.0',
   },
   rules: {
     'required-wrappers-gesture-handler-root': gestureHandlerRoot,

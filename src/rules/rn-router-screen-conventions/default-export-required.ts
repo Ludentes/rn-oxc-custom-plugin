@@ -1,5 +1,6 @@
 import type { Rule } from 'eslint'
 import { isExpoRouterRouteFile } from '../../util/filename.ts'
+import { getAppRoots } from '../../util/paths.ts'
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -10,7 +11,7 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     const filename = context.filename ?? ''
-    if (!isExpoRouterRouteFile(filename)) return {}
+    if (!isExpoRouterRouteFile(filename, getAppRoots(context))) return {}
     let hasDefault = false
     return {
       ExportDefaultDeclaration() {

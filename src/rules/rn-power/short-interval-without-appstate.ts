@@ -1,6 +1,6 @@
 import type { Rule } from 'eslint'
+import { buildAppPattern, getAppRoots } from '../../util/paths.ts'
 
-const MOBILE_PATH = /\/apps\/mobile\//
 const THRESHOLD_MS = 60000
 
 const rule: Rule.RuleModule = {
@@ -17,7 +17,7 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     const filename = (context.filename ?? '').replaceAll('\\', '/')
-    if (!MOBILE_PATH.test(filename)) return {}
+    if (!buildAppPattern(getAppRoots(context)).test(filename)) return {}
     const sourceText = context.sourceCode?.text ?? context.getSourceCode?.().text ?? ''
     const referencesAppState = /\bAppState\b/.test(sourceText)
     if (referencesAppState) return {}

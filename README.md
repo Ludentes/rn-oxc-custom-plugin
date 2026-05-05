@@ -6,7 +6,7 @@ Built on the oxlint JS plugin alpha (March 2026, ESLint v9-compatible). Rules ar
 
 ## Status
 
-v0.0.1. 8 rules across 7 domains. Battle-tested on a production Android-primary RN/Expo app before extraction.
+v0.1.0. 9 rules across 8 domains. Battle-tested on a production Android-primary RN/Expo app before extraction. Filename gates are configurable — works for both monorepo (`apps/mobile/`) and flat (repo-root `app/` + `src/`) layouts.
 
 ## Install
 
@@ -53,9 +53,30 @@ For a complete drop-in starter — including the oxlint built-in plugins (`react
 
 Each rule's rationale is in [`docs/`](./docs) — start with [`docs/00-index.md`](./docs/00-index.md).
 
-## Filename gates
+## Filename gates (configurable)
 
-Several rules currently hardcode `/apps/mobile/(app|src/components)/` as the in-app source tree. Adjust if your repo layout differs (PRs welcome to make this configurable).
+Most rules scope themselves to mobile-app source via a path prefix. Configure via shared settings:
+
+```jsonc
+{
+  "settings": {
+    "rn-expo": {
+      // Defaults to ["apps/mobile"] (preserves pre-0.1 behavior).
+      "appRoots": ["apps/mobile"]
+    }
+  }
+}
+```
+
+Common shapes:
+
+| Layout | `appRoots` |
+|--------|-----------|
+| Monorepo with `apps/mobile/` (default) | `["apps/mobile"]` |
+| Flat repo with `app/` and `src/` at the root | `["."]` |
+| Multi-app monorepo | `["apps/mobile", "apps/driver"]` |
+
+Within each root, rules look for `app/` (Expo Router routes), `src/` (library code), or `src/components/` as appropriate. The exact sub-pattern is per rule — see each rule's source under `src/rules/`. The `required-wrappers-gesture-handler-root` and `imports-flashlist-estimated-item-size` rules don't depend on app roots and run on any matching file.
 
 ## Contributing
 

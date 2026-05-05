@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.0
+
+Filename gates are now configurable via shared settings — drop-in support for non-monorepo layouts.
+
+- New `settings["rn-expo"].appRoots` (string array) controls which path prefixes the rules treat as mobile-app source. Defaults to `["apps/mobile"]` (preserves prior behavior). For a flat layout where `app/` and `src/` sit at the repo root, set `["."]`. Multi-app monorepos can pass several roots, e.g. `["apps/mobile", "apps/driver"]`.
+- Affected rules: `i18n-no-hardcoded-jsx-text`, `color-tokens-no-hex-literal-in-component`, `compat-no-es2023-array-methods`, `env-expo-public-prefix-only`, `storage-kv-store-key-prefix`, `power-short-interval-without-appstate`, `router-screen-conventions-default-export-required`. The `required-wrappers-gesture-handler-root` and `imports-flashlist-estimated-item-size` rules were already layout-agnostic and are unchanged.
+- `isExpoRouterRouteFile(filename, appRoots?)` now accepts an optional roots array (defaults to `["apps/mobile"]`).
+- New `src/util/paths.ts` exports the regex builders.
+- No breaking changes for existing monorepo users.
+
 ## v0.0.3
 
 Example config (`examples/.oxlintrc.json`) only — no rule changes.

@@ -40,4 +40,9 @@ describe('isExpoRouterRouteFile', () => {
   it('does not match files outside app/', () => {
     expect(isExpoRouterRouteFile('/repo/apps/mobile/src/components/Foo.tsx')).toBe(false)
   })
+  it('matches repo-root app/ when configured with appRoots: ["."]', () => {
+    expect(isExpoRouterRouteFile('/repo/app/index.tsx', ['.'])).toBe(true)
+    expect(isExpoRouterRouteFile('/repo/app/(main)/parties/[id].tsx', ['.'])).toBe(true)
+    expect(isExpoRouterRouteFile('/repo/app/_layout.tsx', ['.'])).toBe(false)
+  })
 })

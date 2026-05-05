@@ -45,6 +45,19 @@ describe('rn-storage/kv-store-key-prefix', () => {
           filename: '/repo/apps/mobile/src/x.ts',
           code: `${HEAD}; setItemAsync('foo', 'x')`,
         },
+        // Outside default appRoots ('apps/mobile') -> rule no-ops.
+        {
+          filename: '/repo/src/x.ts',
+          code: `${HEAD}; setItemAsync('foo', 'x')`,
+          options: OPTS,
+        },
+        // Repo-root layout opted in via settings -> good key passes.
+        {
+          filename: '/repo/src/x.ts',
+          code: `${HEAD}; setItemAsync('ne:v1:foo', 'x')`,
+          options: OPTS,
+          settings: { 'rn-expo': { appRoots: ['.'] } },
+        },
       ],
       invalid: [
         {
@@ -63,6 +76,14 @@ describe('rn-storage/kv-store-key-prefix', () => {
           filename: '/repo/apps/mobile/src/x.ts',
           code: `${DEFAULT_HEAD}; kv.getItem('settings')`,
           options: OPTS,
+          errors: [{ messageId: 'badPrefix' }],
+        },
+        // Repo-root layout opted in via settings -> bad key reports.
+        {
+          filename: '/repo/src/x.ts',
+          code: `${HEAD}; setItemAsync('foo', 'x')`,
+          options: OPTS,
+          settings: { 'rn-expo': { appRoots: ['.'] } },
           errors: [{ messageId: 'badPrefix' }],
         },
       ],

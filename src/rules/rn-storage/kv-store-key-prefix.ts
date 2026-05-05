@@ -1,7 +1,7 @@
 import type { Rule } from 'eslint'
 import { collectImportFacts } from '../../util/import-graph.ts'
+import { buildAppPattern, getAppRoots } from '../../util/paths.ts'
 
-const MOBILE_PATH = /\/apps\/mobile\//
 const KV_SOURCE = 'expo-sqlite/kv-store'
 const KV_FNS = new Set([
   'setItem',
@@ -43,7 +43,7 @@ const rule: Rule.RuleModule = {
       return {}
     }
     const filename = (context.filename ?? '').replaceAll('\\', '/')
-    if (!MOBILE_PATH.test(filename)) return {}
+    if (!buildAppPattern(getAppRoots(context)).test(filename)) return {}
     const { facts, visitor } = collectImportFacts()
 
     function checkCall(node: any, fnName: string) {

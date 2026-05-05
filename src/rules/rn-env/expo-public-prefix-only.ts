@@ -1,9 +1,8 @@
 import type { Rule } from 'eslint'
+import { buildAppPattern, buildBuildTimePattern, getAppRoots } from '../../util/paths.ts'
 
-const MOBILE_PATH = /\/apps\/mobile\//
 // Files that run at build time, not in the JS bundle: Expo config plugins,
 // app.config.{js,ts}, and any *.config.{js,ts}.
-const BUILD_TIME = /\/apps\/mobile\/(plugins\/|[^/]*\.config\.(?:m?[jt]s)$)/
 const PUBLIC_PREFIX = /^EXPO_PUBLIC_/
 
 function readKey(node: any): string | null {
@@ -39,7 +38,10 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     const filename = (context.filename ?? '').replaceAll('\\', '/')
-    if (!MOBILE_PATH.test(filename) || BUILD_TIME.test(filename)) return {}
+    const roots = getAppRoots(context)
+    if (!buildAppPattern(roots).test(filename) || buildBuildTimePattern(roots).test(filename)) {
+      return {}
+    }
     return {
       MemberExpression(node: any) {
         const name = readKey(node)

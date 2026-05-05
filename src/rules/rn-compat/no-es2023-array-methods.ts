@@ -1,4 +1,5 @@
 import type { Rule } from 'eslint'
+import { buildAppOrSrcPattern, getAppRoots } from '../../util/paths.ts'
 
 // ES2023 (`Array.prototype.toSorted`, `toReversed`, `toSpliced`, `with`) shipped
 // in V8 / JSC / Node before Hermes had matching support. Different RN releases
@@ -16,7 +17,6 @@ import type { Rule } from 'eslint'
 // these method names are rare enough on other types that the false-positive
 // rate stays low.
 
-const COMPONENT_PATH = /\/apps\/mobile\/(app|src)\//
 const TEST_FILE = /\.test\.tsx?$/
 const BANNED = new Set(['toSorted', 'toReversed', 'toSpliced'])
 
@@ -35,7 +35,9 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     const filename = (context.filename ?? '').replaceAll('\\', '/')
-    if (!COMPONENT_PATH.test(filename) || TEST_FILE.test(filename)) return {}
+    if (!buildAppOrSrcPattern(getAppRoots(context)).test(filename) || TEST_FILE.test(filename)) {
+      return {}
+    }
     return {
       MemberExpression(node: any) {
         if (node.computed) return

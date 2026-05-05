@@ -1,6 +1,6 @@
 import type { Rule } from 'eslint'
+import { buildAppOrComponentsPattern, getAppRoots } from '../../util/paths.ts'
 
-const COMPONENT_PATH = /\/apps\/mobile\/(app|src\/components)\//
 const ALLOWED_FILE = /\/(theme|colors|tokens)\.tsx?$/
 const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i
 
@@ -17,7 +17,9 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     const filename = (context.filename ?? '').replaceAll('\\', '/')
-    if (!COMPONENT_PATH.test(filename) || ALLOWED_FILE.test(filename)) return {}
+    if (!buildAppOrComponentsPattern(getAppRoots(context)).test(filename) || ALLOWED_FILE.test(filename)) {
+      return {}
+    }
     return {
       Literal(node: any) {
         if (typeof node.value === 'string' && HEX.test(node.value)) {

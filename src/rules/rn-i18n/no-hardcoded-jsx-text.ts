@@ -1,7 +1,7 @@
 import type { Rule } from 'eslint'
 import { isUserVisibleText } from '../../util/jsx-text.ts'
+import { buildAppOrComponentsPattern, getAppRoots } from '../../util/paths.ts'
 
-const COMPONENT_PATH = /\/apps\/mobile\/(app|src\/components)\//
 const TEST_FILE = /\.test\.tsx?$/
 
 const rule: Rule.RuleModule = {
@@ -18,7 +18,9 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     const filename = (context.filename ?? '').replaceAll('\\', '/')
-    if (!COMPONENT_PATH.test(filename) || TEST_FILE.test(filename)) return {}
+    if (!buildAppOrComponentsPattern(getAppRoots(context)).test(filename) || TEST_FILE.test(filename)) {
+      return {}
+    }
     return {
       JSXText(node: any) {
         if (isUserVisibleText(node.value)) {
