@@ -58,3 +58,19 @@ export function buildExpoRouterRoutePattern(roots: string[]): RegExp {
     `(?:^|/)${rootAlt(roots)}app/(?:[^/]+/)*([^/_][^/]*)\\.tsx?$`,
   )
 }
+
+/**
+ * Matches per-feature stack layouts under a named Expo Router group, e.g.
+ * `app/(main)/elections/_layout.tsx`. Excludes the group's own root layout
+ * (`app/(main)/_layout.tsx`) and nested groups (`app/(main)/(tabs)/_layout.tsx`).
+ *
+ * `group` is the route-group name **without** parentheses — pass `'main'`,
+ * not `'(main)'`. Defaults to `'main'`, the conventional name for the
+ * authenticated/post-onboarding drawer in expo-router apps.
+ */
+export function buildGroupStackLayoutPattern(roots: string[], group: string): RegExp {
+  const g = escapeRegex(group)
+  return new RegExp(
+    `(?:^|/)${rootAlt(roots)}app/\\(${g}\\)/(?!\\()[^/]+/_layout\\.tsx?$`,
+  )
+}

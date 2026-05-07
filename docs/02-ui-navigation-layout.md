@@ -381,3 +381,18 @@ References [outdoors/min-touch-target-48dp](04-battery-interruptions-outdoors.md
 ### layout/gesture-detector-under-ghrv: `GestureDetector` and Reanimated gestures must be descendants of the canonical `GestureHandlerRootView`
 
 > See [layout/gesture-handler-root-wrap](#layoutgesture-handler-root-wrap) for the canonical rule and detection. This entry exists for discoverability under the gestures topic.
+
+### nav/group-stack-requires-drawer-toggle: Per-feature stack layouts under a Drawer-wrapped route group must wire the drawer toggle
+
+**Why:** In an expo-router app where one route group (commonly `(main)`) is wrapped in a `Drawer`, the Drawer's own header is typically hidden in favour of each feature folder's own `Stack` header. That makes the per-feature `_layout.tsx` the *only* place the drawer toggle can live for that screen. Two failure modes ship silently:
+
+1. The layout sets `headerShown: false` and forgets to render the toggle elsewhere. No header → no drawer toggle, and the screen body loses the top safe-area inset that the Stack header normally provides — content butts up against the notch.
+2. The header is shown but `headerLeft` is never wired. The title bar renders, the screen looks fine, but there is no way to reach the drawer from this stack.
+
+Both fail-modes are invisible to general lint rules (no `SafeAreaView` import to flag, no missing default export) and to typecheck.
+
+**Detection:** `custom-oxlint-plugin` — `rn-expo/router-screen-conventions-group-stack-requires-drawer-toggle`. Scopes to `app/({group})/<feature>/_layout.tsx` and requires the file to reference the configured drawer-toggle identifier (`HamburgerButton` by default). Statically verifying JSX prop content for `headerLeft: () => <X/>` is brittle, so this enforces the simpler invariant: if the toggle component is never mentioned in the file, drawer access is broken — period.
+**Sources:**
+
+- [Expo Router — Layout routes & route groups](https://docs.expo.dev/router/layouts/)
+- [React Navigation — Drawer + Stack header composition](https://reactnavigation.org/docs/drawer-based-navigation/)

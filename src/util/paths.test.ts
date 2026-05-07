@@ -5,6 +5,7 @@ import {
   buildAppPattern,
   buildBuildTimePattern,
   buildExpoRouterRoutePattern,
+  buildGroupStackLayoutPattern,
 } from './paths.ts'
 
 describe('buildAppPattern', () => {
@@ -90,5 +91,40 @@ describe('buildExpoRouterRoutePattern', () => {
     expect(re.test('/repo/app/index.tsx')).toBe(true)
     expect(re.test('/repo/app/(intro)/about.tsx')).toBe(true)
     expect(re.test('/repo/app/_layout.tsx')).toBe(false)
+  })
+})
+
+describe('buildGroupStackLayoutPattern', () => {
+  it('matches per-feature layouts inside the named group', () => {
+    const re = buildGroupStackLayoutPattern(['apps/mobile'], 'main')
+    expect(re.test('/repo/apps/mobile/app/(main)/elections/_layout.tsx')).toBe(true)
+    expect(re.test('/repo/apps/mobile/app/(main)/progress/_layout.tsx')).toBe(true)
+  })
+
+  it('does not match the group root layout itself', () => {
+    const re = buildGroupStackLayoutPattern(['apps/mobile'], 'main')
+    expect(re.test('/repo/apps/mobile/app/(main)/_layout.tsx')).toBe(false)
+  })
+
+  it('does not match nested route groups', () => {
+    const re = buildGroupStackLayoutPattern(['apps/mobile'], 'main')
+    expect(re.test('/repo/apps/mobile/app/(main)/(tabs)/_layout.tsx')).toBe(false)
+  })
+
+  it('does not match feature index files', () => {
+    const re = buildGroupStackLayoutPattern(['apps/mobile'], 'main')
+    expect(re.test('/repo/apps/mobile/app/(main)/progress/index.tsx')).toBe(false)
+  })
+
+  it('honors a custom group name', () => {
+    const re = buildGroupStackLayoutPattern(['apps/mobile'], 'app')
+    expect(re.test('/repo/apps/mobile/app/(app)/home/_layout.tsx')).toBe(true)
+    expect(re.test('/repo/apps/mobile/app/(main)/home/_layout.tsx')).toBe(false)
+  })
+
+  it('works with flat repo layout via "."', () => {
+    const re = buildGroupStackLayoutPattern(['.'], 'main')
+    expect(re.test('/repo/app/(main)/home/_layout.tsx')).toBe(true)
+    expect(re.test('/repo/app/(main)/_layout.tsx')).toBe(false)
   })
 })

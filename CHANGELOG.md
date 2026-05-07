@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.0
+
+New rule for the Drawer-wrapped route-group convention.
+
+- New `rn-expo/router-screen-conventions-group-stack-requires-drawer-toggle` (problem) — every per-feature stack layout under a configured route group (default `(main)`) must reference the drawer-toggle component (default `HamburgerButton`). Catches the common shipping bug where a feature's `_layout.tsx` ends up with `headerShown: false` (or no `headerLeft`) and the drawer becomes unreachable from that screen, the title disappears, and the screen body loses its top safe-area inset (because the Stack header normally provides it).
+- Configurable via rule options: `{ group: 'main', identifier: 'HamburgerButton' }`. Both default to the conventional names; override if your codebase calls them something else (e.g. `DrawerToggle`, group `(app)`).
+- Honors the global `settings["rn-expo"].appRoots` for monorepo / flat / multi-app layouts.
+- New `buildGroupStackLayoutPattern(roots, group)` exported from `src/util/paths.ts`.
+
 ## v0.1.0
 
 Filename gates are now configurable via shared settings — drop-in support for non-monorepo layouts.
