@@ -6,7 +6,7 @@ Built on the oxlint JS plugin alpha (March 2026, ESLint v9-compatible). Rules ar
 
 ## Status
 
-v0.2.0. 10 rules across 8 domains. Battle-tested on a production Android-primary RN/Expo app before extraction. Filename gates are configurable — works for both monorepo (`apps/mobile/`) and flat (repo-root `app/` + `src/`) layouts.
+v0.2.1. 11 rules across 8 domains. Battle-tested on a production Android-primary RN/Expo app before extraction. Filename gates are configurable — works for both monorepo (`apps/mobile/`) and flat (repo-root `app/` + `src/`) layouts.
 
 ## Install
 
@@ -27,6 +27,7 @@ In `.oxlintrc.json`:
     "rn-expo/storage-kv-store-key-prefix": ["error", { "prefix": "^myapp:[\\w-]+:v\\d+$" }],
     "rn-expo/router-screen-conventions-default-export-required": "error",
     "rn-expo/router-screen-conventions-group-stack-requires-drawer-toggle": "error",
+    "rn-expo/router-screen-conventions-layout-requires-error-boundary": "error",
     "rn-expo/env-expo-public-prefix-only": "error",
     "rn-expo/imports-flashlist-estimated-item-size": "error",
     "rn-expo/compat-no-es2023-array-methods": "error"
@@ -49,6 +50,7 @@ For a complete drop-in starter — including the oxlint built-in plugins (`react
 | `storage-kv-store-key-prefix` | storage | error (requires `prefix` option) |
 | `router-screen-conventions-default-export-required` | router | error |
 | `router-screen-conventions-group-stack-requires-drawer-toggle` | router | error (configurable: `group`, `identifier`) |
+| `router-screen-conventions-layout-requires-error-boundary` | router | error (configurable: `group`) |
 | `env-expo-public-prefix-only` | env | error |
 | `imports-flashlist-estimated-item-size` | imports/lists | error |
 | `compat-no-es2023-array-methods` | compat | error |

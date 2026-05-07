@@ -396,3 +396,21 @@ Both fail-modes are invisible to general lint rules (no `SafeAreaView` import to
 
 - [Expo Router — Layout routes & route groups](https://docs.expo.dev/router/layouts/)
 - [React Navigation — Drawer + Stack header composition](https://reactnavigation.org/docs/drawer-based-navigation/)
+
+### nav/layout-requires-error-boundary: Every protected layout file must export an `ErrorBoundary`
+
+**Why:** A React render error inside any subtree, if not caught, propagates to the root and kills the JS engine — `AndroidRuntime FATAL`, the user is dropped to the launcher, in-flight queries and modal state are gone. Expo Router lets any layout file `export { ... as ErrorBoundary }` (or `export const|function|class ErrorBoundary = ...`) to scope the catch to that subtree. Without one, a single misuse on a single screen takes the whole app down.
+
+The minimum protected set:
+
+- The root `app/_layout.tsx` — last resort.
+- The optional group root, e.g. `app/(main)/_layout.tsx` — drawer-level.
+- Every per-feature stack `app/(main)/<feature>/_layout.tsx` — feature-level (the highest-leverage layer; a render error inside one feature should leave the drawer + sibling features alive).
+
+The boundary catches render errors and lifecycle errors in its subtree. It does **not** catch async/promise errors (those go to React Query / event-handler code) or native crashes. Pair with React Query's `throwOnError` plus screen-local `<ErrorView/>` for fetch errors.
+
+**Detection:** `custom-oxlint-plugin` — `rn-expo/router-screen-conventions-layout-requires-error-boundary`. Walks `ExportNamedDeclaration` nodes in protected layouts; passes if any of them exports a name `ErrorBoundary` (declaration or re-export). Default exports named `ErrorBoundary` do **not** count — Expo Router looks up the *named* export.
+**Sources:**
+
+- [Expo Router — Error handling](https://docs.expo.dev/router/error-handling/)
+- [React — Error boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary)

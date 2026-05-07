@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.1
+
+New crash-containment rule.
+
+- New `rn-expo/router-screen-conventions-layout-requires-error-boundary` (problem) — root `app/_layout.tsx`, the optional group-root `app/({group})/_layout.tsx`, and every per-feature `app/({group})/<feature>/_layout.tsx` must export a named `ErrorBoundary` so a render error is contained to its subtree instead of taking the JS engine down. Accepts in-place declarations (`export const|function|class ErrorBoundary`) and re-exports (`export { Foo as ErrorBoundary } [from '...']`). Configurable via `{ group: 'main' | string | null }`; pass `null` to enforce only on the root layout.
+- Patch bump (no API change, no breaking option/rule renames).
+
 ## v0.2.0
 
 New rule for the Drawer-wrapped route-group convention.
